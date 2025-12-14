@@ -23,7 +23,7 @@ public class OutputView {
         DayOfWeek day = localDateTime.getDayOfWeek();
         String dayOfWeek = Converter.convertDayOfWeekToString(day);
 
-        System.out.printf("%d월 %d일 %s %d:%d %s%n",
+        System.out.printf("%d월 %d일 %s %02d:%02d (%s)\n",
                 localDateTime.getMonthValue(), localDateTime.getDayOfMonth(), dayOfWeek, time.getHour(),
                 time.getMinute(), state.getName()
         );

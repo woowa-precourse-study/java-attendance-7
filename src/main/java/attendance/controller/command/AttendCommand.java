@@ -9,7 +9,7 @@ import attendance.domain.Attendance;
 import attendance.domain.AttendanceSheet;
 import attendance.view.InputView;
 import attendance.view.OutputView;
-import java.time.LocalDate;
+import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -31,8 +31,9 @@ public class AttendCommand implements Command {
         String hour = hourAndMinute.getFirst();
         String minutes = hourAndMinute.getLast();
 
+        LocalDateTime now = DateTimes.now();
         LocalTime localTime = LocalTime.of(Integer.parseInt(hour), Integer.parseInt(minutes));
-        LocalDateTime localDateTime = LocalDateTime.of(LocalDate.now(), localTime);
+        LocalDateTime localDateTime = LocalDateTime.of(now.toLocalDate(), localTime);
 
         Attendance attendance = sheet.attendBy(name, localDateTime);
         OutputView.printAttendance(attendance);
