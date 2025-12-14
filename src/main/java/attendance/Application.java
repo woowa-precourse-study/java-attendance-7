@@ -1,7 +1,13 @@
 package attendance;
 
+import attendance.controller.AttendanceController;
+import attendance.factory.ApplicationFactory;
+
 public class Application {
     public static void main(String[] args) {
-        // TODO: 프로그램 구현
+        ApplicationFactory application = new ApplicationFactory();
+        AttendanceController controller = application.controller();
+
+        controller.run();
     }
 }
