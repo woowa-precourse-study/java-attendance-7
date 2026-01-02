@@ -48,7 +48,7 @@ public enum SchoolTime {
 
     public void validateSchoolTime(SchoolTime schoolTime,LocalTime now) {
 //        LocalTime now2 = LocalTime.of(now.getHour(),now.getMinute());
-        if (now.isBefore(DateUtil.parseTime("08:00",DATE_COMPACT)) && now.isAfter(DateUtil.parseTime("23:00",DATE_COMPACT))){
+        if (now.isBefore(DateUtil.parseTime("08:00",DATE_COMPACT)) || now.isAfter(DateUtil.parseTime("23:00",DATE_COMPACT))){
             throw new IllegalArgumentException("[ERROR] 캠퍼스 운영 시간에만 출석이 가능합니다.");
         }
     }
