@@ -43,15 +43,10 @@ public class InputView {
     }
 
     private String readInput(List<Validator> validators) {
-        try {
-            String input = Console.readLine().trim();
-            for (Validator v : validators) {
-                v.validate(input);
-            }
-            return input;
-        } catch (NoSuchElementException e) {
-            throw new IllegalArgumentException("입력이 비어있습니다.");
+        String input = Console.readLine().trim();
+        for (Validator v : validators) {
+            v.validate(input);
         }
-
+        return input;
     }
 }
