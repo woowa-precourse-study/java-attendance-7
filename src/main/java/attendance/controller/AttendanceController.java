@@ -20,6 +20,7 @@ public class AttendanceController {
     public AttendanceController(AttendanceService service) {
         this.inputView = new InputView();
         this.service = service;
+        initCommands();
     }
 
     public void run() {
@@ -41,15 +42,6 @@ public class AttendanceController {
 //        commands.put("4", new Four(inputView));
         commands.put("Q", new Quit());
     }
-
-    public void checkAttendance(){
-
-    }
-
-
-
-
-
 
 
 }
