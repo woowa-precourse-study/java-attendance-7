@@ -1,6 +1,7 @@
 package attendance.utils;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.TextStyle;
@@ -36,15 +37,15 @@ public final class DateUtil {
         return dateTime.format(DateTimeFormatter.ofPattern("HH:mm"));
     }
 
-    public static LocalDateTime parseTime(String input, DateTimeFormatter formatter) {
+    public static LocalTime parseTime(String input, DateTimeFormatter formatter) {
         try {
-            return LocalDateTime.parse(input, formatter);
+            return LocalTime.parse(input, formatter);
         } catch (DateTimeParseException e) {
             throw new IllegalArgumentException("[ERROR] 잘못된 형식을 입력하였습니다.");
         }
     }
 
-    public static LocalDateTime addMinutes(LocalDateTime time, int minutes) {
+    public static LocalTime addMinutes(LocalTime time, int minutes) {
         return time.plusMinutes(minutes);
     }
 

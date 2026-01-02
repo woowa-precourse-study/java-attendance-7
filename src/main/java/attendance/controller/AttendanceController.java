@@ -6,13 +6,17 @@ import attendance.command.Quit;
 import attendance.service.AttendanceService;
 import camp.nextstep.edu.missionutils.DateTimes;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 public class AttendanceController {
     private Map<String, Command> commands = new HashMap<>();
+    private Map<String,List<String>> attendances = new HashMap<>();
     private final InputView inputView;
     private final AttendanceService service;
     static final int MAX_RETRY = 10;
@@ -20,7 +24,9 @@ public class AttendanceController {
     public AttendanceController(AttendanceService service) {
         this.inputView = new InputView();
         this.service = service;
+        initSettings();
         initCommands();
+
     }
 
     public void run() {
@@ -36,12 +42,52 @@ public class AttendanceController {
     }
 
     private void initCommands() {
-        commands.put("1", new CheckAttendance(inputView));
+        commands.put("1", new CheckAttendance(inputView,attendances));
 //        commands.put("2", new Two(inputView));
 //        commands.put("3", new Three(inputView));
 //        commands.put("4", new Four(inputView));
         commands.put("Q", new Quit());
     }
+
+    private void initSettings() {
+        attendances = readFile();
+
+    }
+    private Map<String,List<String>> readFile() {
+        Map<String,List<String>> attendances=new HashMap<>();
+
+        try{
+            BufferedReader br = Files.newBufferedReader(Path.of("src/main/resources/attendances.csv"));
+            br.readLine(); // header skip
+
+            String line;
+            while((line=br.readLine())!=null){
+
+                String[] cols = line.split(",");
+
+                List<String> times=attendances.getOrDefault(cols[0],new ArrayList<>());
+                times.add(cols[1]);
+                attendances.put(cols[0],times);
+            }
+        } catch (IOException e) {
+            throw new IllegalStateException("파일을 읽는데 오류가 발생했습니다.");
+        }
+        return attendances;
+    }
+
+    public static List<String> splitBy(String input, String symbols) {
+        List<String> result = Arrays.stream(input.split(symbols, -1))
+                .map(String::trim)
+                .toList();
+
+        if (result.stream().anyMatch(String::isEmpty)) {
+            throw new IllegalArgumentException("[ERROR] 빈 값이 포함되어 있습니다.");
+        }
+
+        return result;
+    }
+
+
 
 
 }

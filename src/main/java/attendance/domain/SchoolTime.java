@@ -3,6 +3,7 @@ package attendance.domain;
 import attendance.utils.DateUtil;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public enum SchoolTime {
@@ -39,16 +40,20 @@ public enum SchoolTime {
     }
     public static final DateTimeFormatter DATE_COMPACT = DateTimeFormatter.ofPattern("HH:mm");
 
-    public void validateSchoolTime(LocalDateTime now) {
-        if (DateUtil.getDayOfWeek(now).equals(SAT.name) || DateUtil.getDayOfWeek(now).equals(SUN.name)){
+    public void validateWeekDay(SchoolTime schoolTime,LocalDateTime now) {
+        if (schoolTime==SchoolTime.SAT || schoolTime==SchoolTime.SUN){
             throw new IllegalArgumentException(String.format("[ERROR] %s은 등교일이 아닙니다.",DateUtil.getFulldate(now)));
         }
+    }
+
+    public void validateSchoolTime(SchoolTime schoolTime,LocalTime now) {
+//        LocalTime now2 = LocalTime.of(now.getHour(),now.getMinute());
         if (now.isBefore(DateUtil.parseTime("08:00",DATE_COMPACT)) && now.isAfter(DateUtil.parseTime("23:00",DATE_COMPACT))){
             throw new IllegalArgumentException("[ERROR] 캠퍼스 운영 시간에만 출석이 가능합니다.");
         }
     }
 
-    public String calculateStatus(LocalDateTime now) {
+    public String calculateStatus(LocalTime now) {
         if (now.isAfter(DateUtil.addMinutes(DateUtil.parseTime(start,DATE_COMPACT),30))){
             return "결석";
         }
