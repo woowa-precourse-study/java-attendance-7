@@ -4,10 +4,8 @@ import attendance.controller.InputView;
 import attendance.controller.OutputView;
 import attendance.domain.SchoolTime;
 import attendance.exception.Validator;
-import attendance.utils.DateUtil;
 import camp.nextstep.edu.missionutils.DateTimes;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -30,9 +28,6 @@ public class CheckAttendance implements Command {
 
     public void checkAttendance() {
         LocalDateTime today = DateTimes.now();
-//        LocalDateTime today = LocalDateTime.of(2026, 1, 2,8,0);
-
-
         SchoolTime schoolTime = SchoolTime.from(today);
         schoolTime.validateWeekDay(today);
 

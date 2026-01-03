@@ -42,8 +42,6 @@ public class ModifyAttendance implements Command{
         LocalTime localTime= Validator.validateTime(time);
         List<LocalDateTime> times=attendances.get(name);
 
-
-
         LocalDateTime before=null;
         for (LocalDateTime dateTime:times){
             if (dateTime.getDayOfMonth()==date){
@@ -57,6 +55,7 @@ public class ModifyAttendance implements Command{
 
         times.remove(before);
         LocalDateTime after=LocalDateTime.of(before.toLocalDate(),localTime);
+        times.add(after);
         OutputView.printModifyResult(before,schoolTime.calculateStatus(before),
                 after,schoolTime.calculateStatus(after));
 

@@ -43,7 +43,7 @@ public class AttendanceController {
     private void initCommands() {
         commands.put("1", new CheckAttendance(inputView,attendances));
         commands.put("2", new ModifyAttendance(inputView,attendances));
-        commands.put("3", new ConfirmAttendance(inputView));
+        commands.put("3", new ConfirmAttendance(inputView,attendances));
         commands.put("4", new ConfirmWarning(inputView));
         commands.put("Q", new Quit());
     }

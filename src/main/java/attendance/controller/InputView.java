@@ -73,6 +73,14 @@ public class InputView {
         return input;
     }
 
+    public String readConfirmAttendanceName() {
+        System.out.println("출석을 수정하려는 크루의 닉네임을 입력해주세요");
+        String input = readInput(List.of(
+                Validator::validateNotBlank
+        ));
+        return input;
+    }
+
 
 
     private String readInput(List<Validator> validators) {
