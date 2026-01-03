@@ -1,6 +1,7 @@
 package attendance;
 
 import camp.nextstep.edu.missionutils.test.NsTest;
+import java.io.IOException;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -10,6 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class ApplicationTest extends NsTest {
+
     @Test
     void 잘못된_형식_예외_테스트() {
         assertNowTest(
@@ -79,6 +81,10 @@ class ApplicationTest extends NsTest {
 
     @Override
     protected void runMain() {
-        Application.main(new String[]{});
+        try {
+            Application.main(new String[]{});
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
