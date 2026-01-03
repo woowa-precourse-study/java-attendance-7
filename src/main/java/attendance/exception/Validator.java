@@ -37,15 +37,25 @@ public interface Validator {
         }
     }
 
-    static LocalTime validateTime(String hour, String minute) {
-        int h=Validator.validateIsNumber(hour);
-        int m=Validator.validateIsNumber(minute);
-
+    static LocalTime validateTime(String time) {
+        String[] t=time.split(":");
+        int h=Validator.validateIsNumber(t[0]);
+        int m=Validator.validateIsNumber(t[1]);
         try {
             return LocalTime.of(h, m);
         } catch (DateTimeException e) {
             throw new IllegalArgumentException("[ERROR] 잘못된 형식을 입력하였습니다.");
         }
     }
+
+//    static LocalTime validateTime(String hour, String minute) {
+//        int h=Validator.validateIsNumber(hour);
+//        int m=Validator.validateIsNumber(minute);
+//        try {
+//            return LocalTime.of(h, m);
+//        } catch (DateTimeException e) {
+//            throw new IllegalArgumentException("[ERROR] 잘못된 형식을 입력하였습니다.");
+//        }
+//    }
 
 }

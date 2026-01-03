@@ -60,12 +60,12 @@ public enum SchoolTime {
     public String calculateStatus(LocalDateTime now) {
         validateWeekDay(now);
 
-        if (now.toLocalTime().isAfter(start.plusMinutes(5))){
-            return "지각";
-        }
-
         if (now.toLocalTime().isAfter(start.plusMinutes(30))){
             return "결석";
+        }
+
+        if (now.toLocalTime().isAfter(start.plusMinutes(5))){
+            return "지각";
         }
 
         return "출석";

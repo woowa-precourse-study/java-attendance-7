@@ -1,9 +1,6 @@
 package attendance.controller;
 
-import attendance.command.Command;
-import attendance.command.CheckAttendance;
-import attendance.command.Quit;
-import attendance.command.ModifyAttendance;
+import attendance.command.*;
 import attendance.service.AttendanceService;
 import camp.nextstep.edu.missionutils.DateTimes;
 
@@ -46,8 +43,8 @@ public class AttendanceController {
     private void initCommands() {
         commands.put("1", new CheckAttendance(inputView,attendances));
         commands.put("2", new ModifyAttendance(inputView,attendances));
-//        commands.put("3", new Three(inputView));
-//        commands.put("4", new Four(inputView));
+        commands.put("3", new ConfirmAttendance(inputView));
+        commands.put("4", new ConfirmWarning(inputView));
         commands.put("Q", new Quit());
     }
 

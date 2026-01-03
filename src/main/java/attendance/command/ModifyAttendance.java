@@ -3,7 +3,7 @@ package attendance.command;
 import attendance.controller.InputView;
 import attendance.controller.OutputView;
 import attendance.domain.SchoolTime;
-import attendance.utils.DateUtil;
+import attendance.exception.Validator;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -27,36 +27,38 @@ public class ModifyAttendance implements Command{
     }
 
     public void modifyAttendance() {
+        //        LocalDateTime today = DateTimes.now();
+
+
         String name=inputView.readModifyAttendanceName();
         validateName(name);
-        String date=inputView.readModifyAttendanceDate();
-        String time=inputView.readModifyAttendanceTime();
-//        LocalTime localTime= DateUtil.parseTime(time , SchoolTime.DATE_COMPACT);
-        List<String> dateTimes=new ArrayList<>();
-        for (String nickname:attendances.keySet()){
-            if (nickname.equals(name)){
-//                dateTimes=attendances.get(name);
 
+        int date=inputView.readModifyAttendanceDate();
+        LocalDateTime modifyDate = LocalDate.of(2024, 12, date).atStartOfDay();
+        SchoolTime schoolTime = SchoolTime.from(modifyDate);
+        schoolTime.validateWeekDay(modifyDate);
+
+        String time=inputView.readModifyAttendanceTime();
+        LocalTime localTime= Validator.validateTime(time);
+        List<LocalDateTime> times=attendances.get(name);
+
+
+
+        LocalDateTime before=null;
+        for (LocalDateTime dateTime:times){
+            if (dateTime.getDayOfMonth()==date){
+                before=dateTime;
+                break;
             }
         }
-
-        String modifyDate="";
-        String targetDate="";
-        for (String dateTime:dateTimes){
-//            if (DateUtil.getDayofMonth(DateUtil.parseDateTime(dateTime,DateUtil.DATE_TIME)).equals(date)){
-//                targetDate=dateTime;
-//                dateTimes.remove(dateTime);
-//
-//
-//                LocalDateTime localDateTime= DateUtil.parseDateTime(dateTime,DateUtil.DATE_TIME);
-//                String formattedDate=DateUtil.format(localDateTime,DateUtil.DATE);
-//                modifyDate=formattedDate+" "+time;
-//                dateTimes.add(modifyDate);
-//            }
+        if (before==null){
+            throw new IllegalArgumentException("[ERROR] 해당 날짜 출석 기록이 없습니다.");
         }
-        OutputView.printModifyResult(targetDate,modifyDate);
 
-
+        times.remove(before);
+        LocalDateTime after=LocalDateTime.of(before.toLocalDate(),localTime);
+        OutputView.printModifyResult(before,schoolTime.calculateStatus(before),
+                after,schoolTime.calculateStatus(after));
 
     }
 

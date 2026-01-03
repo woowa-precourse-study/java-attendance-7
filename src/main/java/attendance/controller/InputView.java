@@ -40,7 +40,8 @@ public class InputView {
     public String readSchoolTime() {
         System.out.println("등교 시간을 입력해주세요");
         String input = readInput(List.of(
-                Validator::validateNotBlank
+                Validator::validateNotBlank,
+                Validator::validateTime
         ));
         return input;
     }
@@ -53,20 +54,21 @@ public class InputView {
         return input;
     }
 
-    public String readModifyAttendanceDate() {
+    public int readModifyAttendanceDate() {
         System.out.println("수정하려는 날짜(일)를 입력해 주세요.");
         String input = readInput(List.of(
                 Validator::validateNotBlank,
                 Validator::validateRange
 
         ));
-        return input;
+        return Integer.parseInt(input);
     }
 
     public String readModifyAttendanceTime() {
         System.out.println("언제로 변경하겠습니까?");
         String input = readInput(List.of(
-                Validator::validateNotBlank
+                Validator::validateNotBlank,
+                Validator::validateTime
         ));
         return input;
     }
