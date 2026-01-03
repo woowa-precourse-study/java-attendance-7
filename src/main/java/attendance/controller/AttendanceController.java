@@ -1,8 +1,6 @@
 package attendance.controller;
 
-import attendance.command.Command;
-import attendance.command.CheckAttendance;
-import attendance.command.ConfirmAttendance;
+import attendance.command.*;
 import attendance.domain.CrewGroup;
 import attendance.service.AttendanceService;
 
@@ -41,10 +39,10 @@ public class AttendanceController {
 
     private void initCommands() {
         commands.put("1", new CheckAttendance(inputView,crewGroup));
-//        commands.put("2", new Two(inputView,section));
+        commands.put("2", new ModifyAttendance(inputView,crewGroup));
         commands.put("3", new ConfirmAttendance(inputView,crewGroup));
-//        commands.put("4", new Four(inputView,section));
-//        commands.put("Q", new Quit());
+        commands.put("4", new WarningAttendance(inputView,crewGroup));
+        commands.put("Q", new Quit());
     }
 
 

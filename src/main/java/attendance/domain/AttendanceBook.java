@@ -16,8 +16,7 @@ public class AttendanceBook {
     public void add(LocalDateTime localDateTime){
         LocalDate localDate=localDateTime.toLocalDate();
         LocalTime localTime=localDateTime.toLocalTime();
-        SchoolTime schoolTime = new SchoolCalendar().schoolTimeOf(localDate);
-        attendances.add(new Attendance(localDate,localTime, schoolTime));
+        attendances.add(new Attendance(localDate,localTime));
     }
 
 
@@ -26,10 +25,10 @@ public class AttendanceBook {
     }
 
 
-    public Attendance getAttendance(LocalDateTime localDateTime){
+    public Attendance getAttendance(LocalDate localDate){
         Optional<Attendance> attendance =
                 attendances.stream()
-                        .filter(a -> a.getLocalDate().equals(localDateTime.toLocalDate()))
+                        .filter(a -> a.getLocalDate().equals(localDate))
                         .findFirst();
 
         return attendance.orElseThrow(

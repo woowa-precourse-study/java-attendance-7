@@ -4,7 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class AttendancePolicy {
-    public static Attendance.Status decideStatus(LocalDate date, LocalTime time, SchoolTime schoolTime){
+    public static Attendance.Status decideStatus(LocalDate date, LocalTime time){
+        SchoolTime schoolTime = new SchoolCalendar().schoolTimeOf(date);
         if (!schoolTime.isCampusTime(time)){
             throw new IllegalArgumentException("[ERROR] 캠퍼스 운영 시간에만 출석이 가능합니다.");
         }

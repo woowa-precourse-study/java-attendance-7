@@ -38,7 +38,7 @@ public class CheckAttendance implements Command {
         Crew crew = crewGroup.findByName(name);
         LocalDateTime arrivedTime= LocalDateTime.of(localDateTime.toLocalDate(),localTime);
         crew.addAttendance(arrivedTime);
-        Attendance attendance = crew.findAttendance(arrivedTime);
+        Attendance attendance = crew.findAttendance(arrivedTime.toLocalDate());
         DateTimeFormatter f1 = DateTimeFormatter.ofPattern("M월 d일 E요일 HH:mm", Locale.KOREAN);
 
         System.out.println(String.format("%s (%s)",arrivedTime.format(f1),attendance.getStatus().getName()));

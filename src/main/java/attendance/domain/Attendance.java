@@ -1,21 +1,21 @@
 package attendance.domain;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Objects;
 
 public class Attendance {
 
     private final LocalDate localDate;
-    private final LocalTime localTime;
-    private final Status status;
+    private LocalTime localTime;
+    private Status status;
 
-    public Attendance(LocalDate localDate, LocalTime localTime, SchoolTime schoolTime){
+    public Attendance(LocalDate localDate, LocalTime localTime){
         this.localDate=localDate;
         this.localTime=localTime;
-        this.status=AttendancePolicy.decideStatus(localDate,localTime,schoolTime);
+        this.status=AttendancePolicy.decideStatus(localDate,localTime);
     }
-
 
     public LocalDate getLocalDate() {
         return localDate;
@@ -27,6 +27,17 @@ public class Attendance {
 
     public Status getStatus() {
         return status;
+    }
+
+    public LocalDateTime getLocalDateTime() {
+        return LocalDateTime.of(localDate,localTime);
+    }
+
+
+    public void changeLocalTime(LocalTime time){
+
+        localTime=time;
+        status=AttendancePolicy.decideStatus(localDate,localTime);
     }
 
     @Override

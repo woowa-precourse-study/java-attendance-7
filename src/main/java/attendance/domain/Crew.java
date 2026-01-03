@@ -26,8 +26,8 @@ public class Crew {
         attendanceBook.add(localDateTime);
     }
 
-    public Attendance findAttendance(LocalDateTime localDateTime) {
-        return attendanceBook.getAttendance(localDateTime);
+    public Attendance findAttendance(LocalDate localDate) {
+        return attendanceBook.getAttendance(localDate);
     }
 
 
