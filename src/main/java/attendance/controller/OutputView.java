@@ -7,6 +7,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class OutputView {
 
@@ -30,6 +31,18 @@ public class OutputView {
             System.out.println(String.format("%s (%s)",attendanceDto.localDateTime().format(f1),attendanceDto.status()));
         }
 
+    }
+
+    public static void printModifyWarningResult(Map<String,Integer> result){
+        System.out.println();
+        for (String rs:result.keySet()){
+            System.out.printf("%s: %d회\n",rs,result.get(rs));
+        }
+        System.out.println();
+    }
+
+    public static void confirmWarning(String result){
+        System.out.println("\n"+result+" 대상자입니다.\n");
     }
 }
 
