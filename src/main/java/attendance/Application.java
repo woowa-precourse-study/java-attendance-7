@@ -1,13 +1,14 @@
 package attendance;
 
+import attendance.controller.AttendanceController;
 import attendance.service.AttendanceService;
 
 public class Application {
 
     public static void main(String[] args) {
-//        AttendanceService service = new AttendanceService();
-//        AttendanceController controller = new AttendanceController(service);
-//        controller.run();
+        AttendanceService service = new AttendanceService();
+        AttendanceController controller = new AttendanceController(service);
+        controller.run();
     }
 }
 
