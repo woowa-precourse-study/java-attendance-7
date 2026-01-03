@@ -8,6 +8,14 @@ import java.time.format.TextStyle;
 import java.util.Locale;
 
 public final class DateUtil {
+    public static final DateTimeFormatter DATE_TIME =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    public static final DateTimeFormatter DATE =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    public static final DateTimeFormatter TIME =
+            DateTimeFormatter.ofPattern("HH:mm");
+    public static final DateTimeFormatter DATE_DAY_OF_WEEK =
+            DateTimeFormatter.ofPattern("MM월 dd일 E요일 HH:mm", Locale.KOREAN);
 
     private DateUtil() {
     }
@@ -35,6 +43,19 @@ public final class DateUtil {
 
     public static String formatTime(LocalDateTime dateTime) {
         return dateTime.format(DateTimeFormatter.ofPattern("HH:mm"));
+    }
+
+
+    public static String format(LocalDateTime dateTime, DateTimeFormatter formatter) {
+        return dateTime.format(formatter);
+    }
+
+    public static LocalDateTime parseDateTime(String input, DateTimeFormatter formatter) {
+        try {
+            return LocalDateTime.parse(input, formatter);
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("날짜/시간 형식이 올바르지 않습니다.");
+        }
     }
 
     public static LocalTime parseTime(String input, DateTimeFormatter formatter) {

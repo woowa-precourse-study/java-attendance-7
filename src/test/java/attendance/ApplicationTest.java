@@ -2,6 +2,8 @@ package attendance;
 
 import camp.nextstep.edu.missionutils.test.NsTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.time.LocalDate;
 
@@ -16,7 +18,8 @@ class ApplicationTest extends NsTest {
                 () -> assertThatThrownBy(() -> run("1", "짱수", "33:71"))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessageContaining("[ERROR] 잘못된 형식을 입력하였습니다."),
-                LocalDate.of(2024, 12, 13).atStartOfDay()
+//                LocalDate.of(2024, 12, 13).atStartOfDay()
+                LocalDate.of(2026, 1, 2).atStartOfDay()
         );
     }
 
@@ -26,7 +29,8 @@ class ApplicationTest extends NsTest {
                 () -> assertThatThrownBy(() -> run("1", "빈봉"))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessageContaining("[ERROR] 등록되지 않은 닉네임입니다."),
-                LocalDate.of(2024, 12, 13).atStartOfDay()
+//                LocalDate.of(2024, 12, 13).atStartOfDay()
+                LocalDate.of(2026, 1, 2).atStartOfDay()
         );
     }
 
@@ -35,8 +39,10 @@ class ApplicationTest extends NsTest {
         assertNowTest(
                 () -> assertThatThrownBy(() -> run("1"))
                         .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessageContaining("[ERROR] 12월 14일 토요일은 등교일이 아닙니다."),
-                LocalDate.of(2024, 12, 14).atStartOfDay()
+//                        .hasMessageContaining("[ERROR] 12월 14일 토요일은 등교일이 아닙니다."),
+                        .hasMessageContaining("[ERROR] 1월 3일 토요일은 등교일이 아닙니다."),
+//                LocalDate.of(2024, 12, 14).atStartOfDay()
+                LocalDate.of(2026, 1, 3).atStartOfDay()
         );
     }
 
@@ -45,9 +51,10 @@ class ApplicationTest extends NsTest {
         assertNowTest(
                 () -> {
                     runException("1", "짱수", "08:00");
-                    assertThat(output()).contains("12월 13일 금요일 08:00 (출석)");
+                    assertThat(output()).contains("1월 2일 금요일 08:00 (출석)");
                 },
-                LocalDate.of(2024, 12, 13).atStartOfDay()
+//                LocalDate.of(2024, 12, 13).atStartOfDay()
+                LocalDate.of(2026, 1, 2).atStartOfDay()
         );
     }
 
@@ -76,6 +83,40 @@ class ApplicationTest extends NsTest {
                 LocalDate.of(2024, 12, 13).atStartOfDay()
         );
     }
+
+    /**
+     * 내가 만든 테스트
+     * **/
+
+    @Test
+    void 기능입력형식_예외_테스트() {
+        assertThatThrownBy(() ->
+                runException("9")
+        ).isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR] 잘못된 형식을 입력하였습니다");
+    }
+
+    @Test
+    void 캠퍼스_운영시간외_등교_예외_테스트() {
+        assertNowTest(
+                () -> assertThatThrownBy(() -> run("1","짱수","23:58"))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessageContaining("[ERROR] 캠퍼스 운영 시간에만 출석이 가능합니다."),
+                LocalDate.of(2026, 1, 2).atStartOfDay()
+        );
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"1","2"})
+    void 등록되지않은_닉네임_예외_테스트(String text) {
+        assertNowTest(
+                () -> assertThatThrownBy(() -> run(text,"짱구","08:00"))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessageContaining("[ERROR] 등록되지 않은 닉네임입니다."),
+                LocalDate.of(2026, 1, 2).atStartOfDay()
+        );
+    }
+
 
     @Override
     protected void runMain() {

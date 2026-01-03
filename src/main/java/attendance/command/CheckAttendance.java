@@ -33,14 +33,18 @@ public class CheckAttendance implements Command {
         schoolTime.validateWeekDay(schoolTime,today);
 
         String name = inputView.readNickname();
-        if (!attendances.containsKey(name)){
-            throw new IllegalArgumentException("[ERROR] 등록되지 않은 닉네임입니다.");
-        }
+        validateName(name);
         String time = inputView.readSchoolTime();
         LocalTime localTime=DateUtil.parseTime(time ,SchoolTime.DATE_COMPACT);
         schoolTime.validateSchoolTime(schoolTime,localTime);
         OutputView.printTodayAttendanceCheck(today,time ,schoolTime.calculateStatus(localTime));
 
+    }
+
+    private void validateName(String name) {
+        if (!attendances.containsKey(name)){
+            throw new IllegalArgumentException("[ERROR] 등록되지 않은 닉네임입니다.");
+        }
     }
 }
 

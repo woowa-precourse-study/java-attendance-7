@@ -66,13 +66,4 @@ public enum SchoolTime {
     }
 
 
-//    public String getStart() {
-//        return start;
-//    }
-//
-//    public String getEnd() {
-//        return end;
-//    }
-
-
 }

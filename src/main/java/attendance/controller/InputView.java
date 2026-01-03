@@ -42,6 +42,34 @@ public class InputView {
         return input;
     }
 
+    public String readModifyAttendanceName() {
+        System.out.println("출석을 수정하려는 크루의 닉네임을 입력해주세요");
+        String input = readInput(List.of(
+                Validator::validateNotBlank
+        ));
+        return input;
+    }
+
+    public String readModifyAttendanceDate() {
+        System.out.println("수정하려는 날짜(일)를 입력해 주세요.");
+        String input = readInput(List.of(
+                Validator::validateNotBlank,
+                Validator::validateRange
+
+        ));
+        return input;
+    }
+
+    public String readModifyAttendanceTime() {
+        System.out.println("언제로 변경하겠습니까?");
+        String input = readInput(List.of(
+                Validator::validateNotBlank
+        ));
+        return input;
+    }
+
+
+
     private String readInput(List<Validator> validators) {
         String input = Console.readLine().trim();
         for (Validator v : validators) {

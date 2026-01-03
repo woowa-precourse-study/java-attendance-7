@@ -12,9 +12,26 @@ public interface Validator {
         }
     }
 
+    static int validateIsNumber(String input) {
+        try {
+            return Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("[ERROR] 날짜는 1~31 사이 숫자여야합니다.");
+        }
+    }
+
     static void validateFunction(String input) {
         if (!Set.of("1","2","3","4","Q").contains(input)) {
             throw new IllegalArgumentException("[ERROR] 잘못된 형식을 입력하였습니다");
+        }
+    }
+
+    static void validateRange(String input) {
+        int min = 1;
+        int max = 31;
+        int value = validateIsNumber(input);
+        if (value < min || value > max) {
+            throw new IllegalArgumentException("[ERROR] 날짜는 1~31 사이 숫자여야합니다.");
         }
     }
 
