@@ -20,36 +20,37 @@ public final class DateUtil {
     private DateUtil() {
     }
 
-    // 요일 구하기
-    public static String getDayOfWeek(LocalDateTime date) {
-        return date.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.KOREAN);
+//    // 요일 (월~일)
+//    public static String getDayOfWeek(LocalDateTime date) {
+//        return date.getDayOfWeek().getDisplayName(TextStyle.NARROW, Locale.KOREAN);
+//    }
+//
+//    // 월 (1~12)
+//    public static int getMonth(LocalDateTime date) {
+//        return date.getMonthValue();
+//    }
+//
+//    // 일 (1~31)
+//    public static int getDayofMonth(LocalDateTime date) {
+//        return date.getDayOfMonth();
+//    }
+//
+//    // 시간 (0~23)
+//    public static int getHour(LocalDateTime date) {
+//        return date.getHour();
+//    }
+//
+//    // 분 (0~59(
+//    public static int getMinute(LocalDateTime date) {
+//        return date.getMinute();
+//    }
+
+    // LocalDateTime → String
+    public static String format(LocalDateTime date, DateTimeFormatter formatter) {
+        return date.format(formatter);
     }
 
-    public static String getMonth(LocalDateTime date) {
-        return date.getMonth().getDisplayName(TextStyle.FULL, Locale.KOREAN);
-    }
-
-    public static String getDayofMonth(LocalDateTime date) {
-        return date.getDayOfMonth() + "일";
-    }
-
-    public static int getHour(LocalDateTime dateTime) {
-        return dateTime.getHour(); // 0 ~ 23
-    }
-
-    public static int getMinute(LocalDateTime dateTime) {
-        return dateTime.getMinute(); // 0 ~ 59
-    }
-
-    public static String formatTime(LocalDateTime dateTime) {
-        return dateTime.format(DateTimeFormatter.ofPattern("HH:mm"));
-    }
-
-
-    public static String format(LocalDateTime dateTime, DateTimeFormatter formatter) {
-        return dateTime.format(formatter);
-    }
-
+    // String → LocalDateTime
     public static LocalDateTime parseDateTime(String input, DateTimeFormatter formatter) {
         try {
             return LocalDateTime.parse(input, formatter);
@@ -70,9 +71,9 @@ public final class DateUtil {
         return time.plusMinutes(minutes);
     }
 
-    public static String getFulldate(LocalDateTime date) {
-        return String.format("%s %s %s", getMonth(date), getDayofMonth(date), getDayOfWeek(date));
-    }
+//    public static String getFulldate(LocalDateTime date) {
+//        return String.format("%s %s %s", getMonth(date), getDayofMonth(date), getDayOfWeek(date));
+//    }
 
 }
 

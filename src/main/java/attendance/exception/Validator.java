@@ -1,5 +1,7 @@
 package attendance.exception;
 
+import java.time.DateTimeException;
+import java.time.LocalTime;
 import java.util.Set;
 
 public interface Validator {
@@ -32,6 +34,17 @@ public interface Validator {
         int value = validateIsNumber(input);
         if (value < min || value > max) {
             throw new IllegalArgumentException("[ERROR] 날짜는 1~31 사이 숫자여야합니다.");
+        }
+    }
+
+    static LocalTime validateTime(String hour, String minute) {
+        int h=Validator.validateIsNumber(hour);
+        int m=Validator.validateIsNumber(minute);
+
+        try {
+            return LocalTime.of(h, m);
+        } catch (DateTimeException e) {
+            throw new IllegalArgumentException("[ERROR] 잘못된 형식을 입력하였습니다.");
         }
     }
 

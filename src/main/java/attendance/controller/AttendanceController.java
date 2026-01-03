@@ -12,12 +12,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 
 public class AttendanceController {
     private Map<String, Command> commands = new HashMap<>();
-    private Map<String,List<String>> attendances = new HashMap<>();
+    private Map<String,List<LocalDateTime>> attendances = new HashMap<>();
     private final InputView inputView;
     private final AttendanceService service;
     static final int MAX_RETRY = 10;
@@ -54,8 +55,9 @@ public class AttendanceController {
         attendances = readFile();
 
     }
-    private Map<String,List<String>> readFile() {
-        Map<String,List<String>> attendances=new HashMap<>();
+    public static final DateTimeFormatter DATETIME =DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    private Map<String,List<LocalDateTime>> readFile() {
+        Map<String,List<LocalDateTime>> attendances=new HashMap<>();
 
         try{
             BufferedReader br = Files.newBufferedReader(Path.of("src/main/resources/attendances.csv"));
@@ -66,8 +68,10 @@ public class AttendanceController {
 
                 String[] cols = line.split(",");
 
-                List<String> times=attendances.getOrDefault(cols[0],new ArrayList<>());
-                times.add(cols[1]);
+                List<LocalDateTime> times=attendances.getOrDefault(cols[0],new ArrayList<>());
+                LocalDateTime localDateTime = LocalDateTime.parse(cols[1], DATETIME);
+                times.add(localDateTime);
+                //2024-12-13 10:08
                 attendances.put(cols[0],times);
             }
         } catch (IOException e) {

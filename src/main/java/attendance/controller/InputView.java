@@ -5,13 +5,16 @@ import attendance.utils.DateUtil;
 import camp.nextstep.edu.missionutils.Console;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 import java.util.NoSuchElementException;
 
 public class InputView {
 
     public String readMessage(LocalDateTime today) {
-        System.out.println("오늘은 " + DateUtil.getFulldate(today) + "입니다. 기능을 선택해 주세요.");
+        DateTimeFormatter f1=DateTimeFormatter.ofPattern("MM월 dd일 E요일", Locale.KOREAN);
+        System.out.println("오늘은 " + today.format(f1) + "입니다. 기능을 선택해 주세요.");
         System.out.println("""
                 1. 출석확인
                 2. 출석 수정

@@ -14,9 +14,9 @@ import java.util.Map;
 
 public class ModifyAttendance implements Command{
     private final InputView inputView;
-    private Map<String, List<String>> attendances;
+    private Map<String, List<LocalDateTime>> attendances;
 
-    public ModifyAttendance(InputView inputView,Map<String,List<String>> attendances) {
+    public ModifyAttendance(InputView inputView,Map<String,List<LocalDateTime>> attendances) {
         this.inputView=inputView;
         this.attendances=attendances;
     }
@@ -35,7 +35,7 @@ public class ModifyAttendance implements Command{
         List<String> dateTimes=new ArrayList<>();
         for (String nickname:attendances.keySet()){
             if (nickname.equals(name)){
-                dateTimes=attendances.get(name);
+//                dateTimes=attendances.get(name);
 
             }
         }
@@ -43,16 +43,16 @@ public class ModifyAttendance implements Command{
         String modifyDate="";
         String targetDate="";
         for (String dateTime:dateTimes){
-            if (DateUtil.getDayofMonth(DateUtil.parseDateTime(dateTime,DateUtil.DATE_TIME)).equals(date)){
-                targetDate=dateTime;
-                dateTimes.remove(dateTime);
-
-
-                LocalDateTime localDateTime= DateUtil.parseDateTime(dateTime,DateUtil.DATE_TIME);
-                String formattedDate=DateUtil.format(localDateTime,DateUtil.DATE);
-                modifyDate=formattedDate+" "+time;
-                dateTimes.add(modifyDate);
-            }
+//            if (DateUtil.getDayofMonth(DateUtil.parseDateTime(dateTime,DateUtil.DATE_TIME)).equals(date)){
+//                targetDate=dateTime;
+//                dateTimes.remove(dateTime);
+//
+//
+//                LocalDateTime localDateTime= DateUtil.parseDateTime(dateTime,DateUtil.DATE_TIME);
+//                String formattedDate=DateUtil.format(localDateTime,DateUtil.DATE);
+//                modifyDate=formattedDate+" "+time;
+//                dateTimes.add(modifyDate);
+//            }
         }
         OutputView.printModifyResult(targetDate,modifyDate);
 
