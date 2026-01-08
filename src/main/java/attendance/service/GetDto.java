@@ -1,6 +1,7 @@
 package attendance.service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public class GetDto {
@@ -14,17 +15,35 @@ public class GetDto {
         this.warning=warning;
     }
 
+    public List<Attendance> getAttendances() {
+        return attendances;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public String getWarning() {
+        return warning;
+    }
+
     public static class Attendance{
         private final LocalDate date;
+        private final LocalTime time;
         private final String status;
 
-        public Attendance(LocalDate date, String status) {
+        public Attendance(LocalDate date,LocalTime time, String status) {
             this.date = date;
+            this.time = time;
             this.status = status;
         }
 
         public LocalDate getDate() {
             return date;
+        }
+
+        public LocalTime getTime() {
+            return time;
         }
 
         public String getStatus() {

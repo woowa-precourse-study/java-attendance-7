@@ -37,15 +37,12 @@ public class Three implements Command {
 
         List<GetDto.Attendance> attendances = new ArrayList<>();
         for (History history : histories){
-            attendances.add(new GetDto.Attendance(history.getDate(),history.getStatus()));
+            attendances.add(new GetDto.Attendance(history.getDate(),history.getTime(),history.getStatus()));
         }
 
         String warning = Warning.of(status.getLate(),status.getAbsent()).getName();
 
-        OutputView.printConfirmResult(new GetDto(attendances,status,warning));
-
-
-
+        OutputView.printConfirmResult(crew.getName(),new GetDto(attendances,status,warning));
 
     }
 }
