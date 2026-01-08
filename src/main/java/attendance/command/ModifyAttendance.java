@@ -10,12 +10,12 @@ import attendance.service.Service;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Two implements Command {
+public class ModifyAttendance implements Command {
     private final InputView inputView;
     private final Service service;
     private final CrewGroup crewGroup;
 
-    public Two(Service service, CrewGroup crewGroup) {
+    public ModifyAttendance(Service service, CrewGroup crewGroup) {
         this.inputView=new InputView();
         this.service=service;
         this.crewGroup=crewGroup;

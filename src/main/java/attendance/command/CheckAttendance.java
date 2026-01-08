@@ -13,12 +13,12 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-public class One implements Command {
+public class CheckAttendance implements Command {
     private final InputView inputView;
     private final Service service;
     private final CrewGroup crewGroup;
 
-    public One(Service service, CrewGroup crewGroup) {
+    public CheckAttendance(Service service, CrewGroup crewGroup) {
         this.inputView = new InputView();
         this.service = service;
         this.crewGroup = crewGroup;
