@@ -1,10 +1,19 @@
 package attendance.controller;
 
 import attendance.command.*;
+import attendance.domain.Crew;
+import attendance.domain.CrewGroup;
+import attendance.domain.History;
+import attendance.domain.SchoolTime;
 import attendance.service.Service;
 import camp.nextstep.edu.missionutils.DateTimes;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,15 +21,17 @@ public class Controller {
     private Map<String, Command> commands = new HashMap<>();
     private final InputView inputView;
     private final Service service;
+    private final CrewGroup crewGroup;
 
     public Controller(Service service) {
         this.inputView = new InputView();
         this.service = service;
+        this.crewGroup = new CrewGroup();
     }
 
     public void run() {
-        LocalDateTime today=DateTimes.now();
         while (true){
+            LocalDateTime today=DateTimes.now();
             String function =inputView.readFunction(today.toLocalDate());
             if (function.equals("Q")){
                 break;
@@ -32,11 +43,44 @@ public class Controller {
     }
 
     private void initCommands() {
-        commands.put("1", new One(service));
-        commands.put("2", new Two(service));
-        commands.put("3", new Three(service));
-        commands.put("4", new Four(service));
+        commands.put("1", new One(service,crewGroup));
+        commands.put("2", new Two(service,crewGroup));
+        commands.put("3", new Three(service,crewGroup));
+        commands.put("4", new Four(service,crewGroup));
         commands.put("Q", new Quit());
+    }
+
+    public void initSetting(){
+        readFile();
+        // TODO: 기한 내의 기록이 없으면 결석 처리
+
+
+    }
+
+    public void readFile() {
+        try{
+            BufferedReader br = Files.newBufferedReader(Path.of("src/main/resources/attendances.csv"));
+            br.readLine(); // header skip
+
+            String line;
+            while((line=br.readLine())!=null){
+
+                String[] cols = line.split(",");
+                Crew crew = new Crew(cols[0]);
+                crewGroup.add(crew);
+
+                DateTimeFormatter p1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:dd");
+                LocalDateTime localDateTime = LocalDateTime.parse(cols[1],p1);
+                SchoolTime schoolTime = SchoolTime.of(localDateTime.toLocalDate());
+                String status = schoolTime.calculateStatus(localDateTime.toLocalTime());
+
+                crewGroup.addHistory(crew,new History(localDateTime.toLocalDate(),
+                        localDateTime.toLocalTime(),schoolTime,status));
+
+            }
+        } catch (IOException e) {
+            throw new IllegalStateException("파일을 읽는데 오류가 발생했습니다.");
+        }
     }
 
 
