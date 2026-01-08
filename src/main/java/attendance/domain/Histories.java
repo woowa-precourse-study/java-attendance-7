@@ -1,5 +1,7 @@
 package attendance.domain;
 
+import camp.nextstep.edu.missionutils.DateTimes;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
@@ -49,6 +51,7 @@ public class Histories {
 
     public Map<String, Long> getAllStatus() {
         return histories.stream()
+                .filter(history -> history.getDate().isBefore(DateTimes.now().toLocalDate()))
                 .collect(Collectors.groupingBy(
                         History::getStatus,
                         Collectors.counting()

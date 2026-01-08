@@ -4,6 +4,7 @@ package attendance.controller;
 import attendance.domain.History;
 import attendance.service.GetDto;
 import attendance.service.ModifyDto;
+import attendance.service.WarningDto;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -44,6 +45,13 @@ public class OutputView {
 
         if (!getDto.getWarning().equals("없음")){
             System.out.printf("\n%s 대상자입니다.",getDto.getWarning());
+        }
+    }
+
+    public static void printWarnResult(WarningDto dto){
+        System.out.println("\n제적 위험자 조회 결과");
+        for (WarningDto.Warn w:dto.getWarns()){
+            System.out.printf("- %s: 결석 %d회, 지각 %d회 (%s)\n",w.getName(),w.getAbsent(),w.getLate(),w.getStatus());
         }
     }
 

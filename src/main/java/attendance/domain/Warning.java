@@ -15,9 +15,9 @@ public enum Warning {
     }
 
     public static Warning of(int late, int absent){
-        absent=absent+late/3;
+        int newAbsent=absent+late/3;
         for (Warning warning:Warning.values()){
-            if (warning.count<=absent){
+            if (warning.count<=newAbsent){
                 return warning;
             }
         }

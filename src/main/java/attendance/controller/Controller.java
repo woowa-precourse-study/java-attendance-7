@@ -48,7 +48,7 @@ public class Controller {
     private void initCommands() {
         commands.put("1", new CheckAttendance(service,crewGroup));
         commands.put("2", new ModifyAttendance(service,crewGroup));
-        commands.put("3", new Three(service,crewGroup));
+        commands.put("3", new ConfirmAttendance(service,crewGroup));
         commands.put("4", new Four(service,crewGroup));
         commands.put("Q", new Quit());
     }

@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Three implements Command {
+public class ConfirmAttendance implements Command {
     private final InputView inputView;
     private final Service service;
     private final CrewGroup crewGroup;
 
-    public Three(Service service, CrewGroup crewGroup) {
+    public ConfirmAttendance(Service service, CrewGroup crewGroup) {
         this.inputView=new InputView();
         this.service=service;
         this.crewGroup=crewGroup;

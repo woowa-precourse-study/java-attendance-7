@@ -51,12 +51,6 @@ public enum SchoolTime {
     public String getKorName() {
         return korName;
     }
-    //    public String getStatus(LocalDate date,LocalTime time){
-//        if (isSchoolTime(date,time)){
-//            return
-//        }
-//        return "결석";
-//    }
 
     public String calculateStatus(LocalTime time){
         if (time.isAfter(this.edu_start.plusMinutes(30))){

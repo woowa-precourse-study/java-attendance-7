@@ -3,6 +3,7 @@ package attendance.domain;
 import attendance.controller.OutputView;
 import attendance.service.GetDto;
 import attendance.service.ModifyDto;
+import attendance.service.WarningDto;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -13,7 +14,9 @@ public class CrewGroup {
     private final Map<Crew, Histories> histories = new LinkedHashMap<>();
 
     public void add(Crew crew) {
-        crews.add(crew);
+        if (!crews.contains(crew)){
+            crews.add(crew);
+        }
     }
 
     public void addHistory(Crew crew, History history) {
@@ -28,19 +31,19 @@ public class CrewGroup {
         );
     }
 
-    public ModifyDto.Before getDateAndStatus(Crew crew, LocalDate date){
+    public ModifyDto.Before getDateAndStatus(Crew crew, LocalDate date) {
         Histories histories1 = getOrCreate(crew);
         History history = histories1.findByDate(date);
 
-        return new ModifyDto.Before(history.getDate(),history.getTime(), history.getStatus());
+        return new ModifyDto.Before(history.getDate(), history.getTime(), history.getStatus());
     }
 
     public ModifyDto.After modifyHistory(Crew crew, LocalDate date, LocalTime time) {
         Histories histories1 = histories.get(crew);
 
-        histories1.modify(date,time);
+        histories1.modify(date, time);
         History history = histories1.findByDate(date);
-        return new ModifyDto.After(history.getTime(),history.getStatus());
+        return new ModifyDto.After(history.getTime(), history.getStatus());
     }
 
     public Crew findByName(String name) {
@@ -53,20 +56,37 @@ public class CrewGroup {
         );
     }
 
-    public void addOmittedHistory(LocalDate date){
-        for (Crew crew:crews){
+    public void addOmittedHistory(LocalDate date) {
+        for (Crew crew : crews) {
             histories.get(crew).addIfOmitted(date);
         }
     }
 
-    public List<History> getHistories(Crew crew){
+    public List<History> getHistories(Crew crew) {
         Histories histories1 = histories.get(crew);
         return histories1.getAllHistories();
     }
 
-    public Map<String, Long> getAllStatus(Crew crew){
+    public Map<String, Long> getAllStatus(Crew crew) {
         Histories histories1 = histories.get(crew);
         return histories1.getAllStatus();
+    }
+
+    public WarningDto getWarning() {
+        List<WarningDto.Warn> warns = new ArrayList<>();
+        for (Crew crew : crews) {
+            Map<String, Long> allStatus = getAllStatus(crew);
+            int late = Math.toIntExact(allStatus.getOrDefault("지각", 0L));
+            int absent = Math.toIntExact(allStatus.getOrDefault("결석", 0L));
+
+            Warning warning = Warning.of(late, absent);
+
+            if (!warning.equals(Warning.NONE)){
+                warns.add(new WarningDto.Warn(crew.getName(),absent, late, warning.getName()));
+            }
+
+        }
+        return new WarningDto(warns);
     }
 
 }

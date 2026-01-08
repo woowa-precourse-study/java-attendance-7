@@ -1,8 +1,10 @@
 package attendance.command;
 
 import attendance.controller.InputView;
+import attendance.controller.OutputView;
 import attendance.domain.CrewGroup;
 import attendance.service.Service;
+import attendance.service.WarningDto;
 
 public class Four implements Command {
     private final InputView inputView;
@@ -22,7 +24,8 @@ public class Four implements Command {
     }
 
     public void checkAttendance() {
-
+        WarningDto dto = crewGroup.getWarning();
+        OutputView.printWarnResult(dto);
     }
 }
 
