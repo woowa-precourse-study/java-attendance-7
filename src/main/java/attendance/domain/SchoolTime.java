@@ -4,15 +4,17 @@ package attendance.domain;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.TextStyle;
+import java.util.Locale;
 
 public enum SchoolTime {
-    MON("월", 1, LocalTime.of(13,0),LocalTime.of(18,0),LocalTime.of(8,0),LocalTime.of(23,0)),
-    TUE("화", 2,LocalTime.of(10,0),LocalTime.of(18,0),LocalTime.of(8,0),LocalTime.of(23,0)),
-    WED("수", 3,LocalTime.of(10,0),LocalTime.of(18,0),LocalTime.of(8,0),LocalTime.of(23,0)),
-    THU("목", 4,LocalTime.of(10,0),LocalTime.of(18,0),LocalTime.of(8,0),LocalTime.of(23,0)),
-    FRI("금", 5,LocalTime.of(10,0),LocalTime.of(18,0),LocalTime.of(8,0),LocalTime.of(23,0)),
-    SAT("토", 6,null,null,LocalTime.of(8,0),LocalTime.of(23,0)),
-    SUN("일", 7,null,null,LocalTime.of(8,0),LocalTime.of(23,0));
+    MONDAY("월", 1, LocalTime.of(13,0),LocalTime.of(18,0),LocalTime.of(8,0),LocalTime.of(23,0)),
+    TUESDAY("화", 2,LocalTime.of(10,0),LocalTime.of(18,0),LocalTime.of(8,0),LocalTime.of(23,0)),
+    WEDNESDAY("수", 3,LocalTime.of(10,0),LocalTime.of(18,0),LocalTime.of(8,0),LocalTime.of(23,0)),
+    THURSDAY("목", 4,LocalTime.of(10,0),LocalTime.of(18,0),LocalTime.of(8,0),LocalTime.of(23,0)),
+    FRIDAY("금", 5,LocalTime.of(10,0),LocalTime.of(18,0),LocalTime.of(8,0),LocalTime.of(23,0)),
+    SATURDAY("토", 6,null,null,LocalTime.of(8,0),LocalTime.of(23,0)),
+    SUNDAY("일", 7,null,null,LocalTime.of(8,0),LocalTime.of(23,0));
 
     private final String korName;
     private final int number;
@@ -31,12 +33,11 @@ public enum SchoolTime {
     }
 
     public boolean isSchoolTime(LocalDate date,LocalTime time){
-        if (date==LocalDate.of(2024,12,25)){
+        if (date.equals(LocalDate.of(2024,12,25))){
             return false;
         }
 
-        DayOfWeek dayOfWeek = date.getDayOfWeek();
-        if (dayOfWeek== DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY){
+        if (this.equals(DayOfWeek.SATURDAY) || this.equals(DayOfWeek.SUNDAY)){
             return false;
         }
 
@@ -46,35 +47,35 @@ public enum SchoolTime {
         return true;
     }
 
-    public boolean isEduTime(LocalDate date,LocalTime time){
-        DayOfWeek dayOfWeek = date.getDayOfWeek();
-        if (dayOfWeek==DayOfWeek.MONDAY){
-            return time.isAfter(SchoolTime.MON.edu_start) || time.isBefore(SchoolTime.MON.edu_end);
+    public boolean isEduTime(LocalTime time){
+        return time.isAfter(this.edu_start) || time.isBefore(this.edu_end);
+    }
+
+//    public String getStatus(LocalDate date,LocalTime time){
+//        if (isSchoolTime(date,time)){
+//            return
+//        }
+//        return "결석";
+//    }
+
+    public String calculateStatus(LocalTime time){
+        if (time.isAfter(this.edu_start.plusMinutes(30))){
+            return "결석";
         }
-        return time.isAfter(SchoolTime.TUE.edu_start) || time.isBefore(SchoolTime.TUE.edu_end);
+        if (time.isAfter(this.edu_start.plusMinutes(5))){
+            return "지각";
+        }
+        return "출석";
     }
 
 
-
-    public static SchoolTime of(String name) {
-        for (SchoolTime  SchoolTime  : SchoolTime .values()) {
-            if (SchoolTime .korName.equals(name)) {
-                return SchoolTime ;
+    public static SchoolTime of(LocalDate localDate) {
+        for (SchoolTime  schoolTime  : SchoolTime .values()) {
+            if (schoolTime.korName.equals(localDate.getDayOfWeek().getDisplayName(TextStyle.NARROW, Locale.KOREAN))) {
+                return schoolTime ;
             }
         }
         throw new IllegalArgumentException("해당 요일이 존재하지 않습니다.");
-    }
-
-    public String getKorName() {
-        return korName;
-    }
-
-    public boolean isWeekend(){
-        return this == SAT || this == SchoolTime .SUN;
-    }
-
-    public SchoolTime  getNext() {
-        return SchoolTime .values()[this.number % 7];
     }
 
 }

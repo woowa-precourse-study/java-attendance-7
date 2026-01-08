@@ -10,6 +10,18 @@ public class CrewGroup {
         crews.add(crew);
     }
 
+    public void addHistory(Crew crew, History history){
+        getOrCreate(crew);
+        histories.get(crew).add(history);
+    }
+
+    public Histories getOrCreate(Crew crew) {
+        return histories.computeIfAbsent(
+                crew,
+                k -> new Histories()
+        );
+    }
+
     public Crew findByName(String name){
         Optional<Crew> crew = crews.stream()
                 .filter(a -> a.getName().equals(name))

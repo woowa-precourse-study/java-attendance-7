@@ -27,9 +27,11 @@ public class Controller {
         this.inputView = new InputView();
         this.service = service;
         this.crewGroup = new CrewGroup();
+        initCommands();
     }
 
     public void run() {
+        initSetting();
         while (true){
             LocalDateTime today=DateTimes.now();
             String function =inputView.readFunction(today.toLocalDate());
@@ -69,7 +71,7 @@ public class Controller {
                 Crew crew = new Crew(cols[0]);
                 crewGroup.add(crew);
 
-                DateTimeFormatter p1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:dd");
+                DateTimeFormatter p1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                 LocalDateTime localDateTime = LocalDateTime.parse(cols[1],p1);
                 SchoolTime schoolTime = SchoolTime.of(localDateTime.toLocalDate());
                 String status = schoolTime.calculateStatus(localDateTime.toLocalTime());
