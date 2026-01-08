@@ -24,7 +24,7 @@ public class One implements Command {
     }
 
     public void checkAttendance() {
-        inputView.readNickname();
+        Crew crew = crewGroup.findByName(inputView.readNickname());
         LocalTime time = inputView.readAttendanceTime();
 
     }
