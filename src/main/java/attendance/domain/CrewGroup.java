@@ -1,5 +1,7 @@
 package attendance.domain;
 
+import attendance.controller.OutputView;
+import attendance.service.GetDto;
 import attendance.service.ModifyDto;
 
 import java.time.LocalDate;
@@ -55,6 +57,16 @@ public class CrewGroup {
         for (Crew crew:crews){
             histories.get(crew).addIfOmitted(date);
         }
+    }
+
+    public List<History> getHistories(Crew crew){
+        Histories histories1 = histories.get(crew);
+        return histories1.getAllHistories();
+    }
+
+    public Map<String, Long> getAllStatus(Crew crew){
+        Histories histories1 = histories.get(crew);
+        return histories1.getAllStatus();
     }
 
 }

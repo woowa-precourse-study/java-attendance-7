@@ -42,7 +42,6 @@ public class CheckAttendance implements Command {
         LocalTime time = inputView.readAttendanceTime();
         String status = schoolTime.calculateStatus(time);
 
-
         OutputView.printResult(LocalDateTime.of(today.toLocalDate(),time), status);
 
     }

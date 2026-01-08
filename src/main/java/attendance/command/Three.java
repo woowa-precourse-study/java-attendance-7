@@ -1,9 +1,14 @@
 package attendance.command;
 
 import attendance.controller.InputView;
-import attendance.domain.Crew;
-import attendance.domain.CrewGroup;
+import attendance.controller.OutputView;
+import attendance.domain.*;
+import attendance.service.GetDto;
 import attendance.service.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class Three implements Command {
     private final InputView inputView;
@@ -18,11 +23,29 @@ public class Three implements Command {
 
     @Override
     public void execute() {
-        checkAttendance();
+        confirmAttendance();
     }
 
-    public void checkAttendance() {
+    public void confirmAttendance() {
         Crew crew = crewGroup.findByName(inputView.readNickname());
+        List<History> histories = crewGroup.getHistories(crew);
+        Map<String, Long> allStatus = crewGroup.getAllStatus(crew);
+
+        GetDto.Status status = new GetDto.Status(Math.toIntExact(allStatus.getOrDefault("출석",0L)),
+                Math.toIntExact(allStatus.getOrDefault("지각",0L)),
+                Math.toIntExact(allStatus.getOrDefault("결석",0L)));
+
+        List<GetDto.Attendance> attendances = new ArrayList<>();
+        for (History history : histories){
+            attendances.add(new GetDto.Attendance(history.getDate(),history.getStatus()));
+        }
+
+        String warning = Warning.of(status.getLate(),status.getAbsent()).getName();
+
+        OutputView.printConfirmResult(new GetDto(attendances,status,warning));
+
+
+
 
     }
 }

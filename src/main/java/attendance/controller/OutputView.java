@@ -1,6 +1,7 @@
 package attendance.controller;
 
 
+import attendance.service.GetDto;
 import attendance.service.ModifyDto;
 
 import java.time.LocalDateTime;
@@ -21,4 +22,11 @@ public class OutputView {
                 before.getDate().format(f1),before.getTime().format(f2),before.getStatus(),
                 after.getTime().format(f2),after.getStatus());
     }
+
+    public static void printConfirmResult(GetDto getDto){
+        DateTimeFormatter f1 = DateTimeFormatter.ofPattern("MM월 dd일 E요일", Locale.KOREAN);
+
+
+    }
+
 }
