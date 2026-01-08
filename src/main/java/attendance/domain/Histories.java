@@ -30,4 +30,16 @@ public class Histories {
         history.modifyTime(time);
     }
 
+    public void addIfOmitted(LocalDate date){
+        try{
+            findByDate(date);
+        } catch(IllegalArgumentException ignored){
+            SchoolTime schoolTime = SchoolTime.of(date);
+            if (schoolTime.isSchoolDay(date)){
+                History history = new History(date,null,SchoolTime.of(date),"결석");
+                histories.add(history);
+            }
+        }
+    }
+
 }

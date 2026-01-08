@@ -51,4 +51,10 @@ public class CrewGroup {
         );
     }
 
+    public void addOmittedHistory(LocalDate date){
+        for (Crew crew:crews){
+            histories.get(crew).addIfOmitted(date);
+        }
+    }
+
 }

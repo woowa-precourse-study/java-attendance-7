@@ -1,6 +1,7 @@
 package attendance.command;
 
 import attendance.controller.InputView;
+import attendance.domain.Crew;
 import attendance.domain.CrewGroup;
 import attendance.service.Service;
 
@@ -21,6 +22,7 @@ public class Three implements Command {
     }
 
     public void checkAttendance() {
+        Crew crew = crewGroup.findByName(inputView.readNickname());
 
     }
 }

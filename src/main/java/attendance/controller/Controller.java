@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -54,9 +55,12 @@ public class Controller {
 
     public void initSetting(){
         readFile();
-        // TODO: 기한 내의 기록이 없으면 결석 처리
-
-
+        LocalDateTime today=DateTimes.now();
+        LocalDate start = LocalDate.of(2024,12,1);
+        LocalDate end = today.toLocalDate();
+        for (LocalDate date = start;date.isBefore(end);date=date.plusDays(1)){
+            crewGroup.addOmittedHistory(date);
+        }
     }
 
     public void readFile() {
