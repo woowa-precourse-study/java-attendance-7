@@ -1,14 +1,7 @@
 package attendance;
 
-import attendance.controller.AttendanceController;
-import attendance.service.AttendanceService;
-
 public class Application {
-
     public static void main(String[] args) {
-        AttendanceService service = new AttendanceService();
-        AttendanceController controller = new AttendanceController(service);
-        controller.run();
+        // TODO: 프로그램 구현
     }
 }
-
