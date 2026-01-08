@@ -48,7 +48,10 @@ public enum SchoolTime {
         return time.isAfter(this.edu_start) || time.isBefore(this.edu_end);
     }
 
-//    public String getStatus(LocalDate date,LocalTime time){
+    public String getKorName() {
+        return korName;
+    }
+    //    public String getStatus(LocalDate date,LocalTime time){
 //        if (isSchoolTime(date,time)){
 //            return
 //        }

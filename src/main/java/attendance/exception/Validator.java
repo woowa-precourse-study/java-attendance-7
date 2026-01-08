@@ -47,4 +47,13 @@ public interface Validator {
         }
     }
 
+    static void validateRange(String input) {
+        int min = 1;
+        int max = 31;
+        int value = validateIsNumber(input);
+        if (value < min || value > max) {
+            throw new IllegalArgumentException("[ERROR] 잘못된 형식을 입력하였습니다.");
+        }
+    }
+
 }

@@ -1,15 +1,19 @@
 package attendance.command;
 
 import attendance.controller.InputView;
+import attendance.domain.CrewGroup;
 import attendance.service.Service;
 
 public class Four implements Command {
     private final InputView inputView;
     private final Service service;
+    private final CrewGroup crewGroup;
 
-    public Four(Service service) {
-        this.inputView=new InputView();
-        this.service=service;
+
+    public Four(Service service, CrewGroup crewGroup) {
+        this.inputView = new InputView();
+        this.service = service;
+        this.crewGroup = crewGroup;
     }
 
     @Override

@@ -34,7 +34,31 @@ public class InputView {
     }
 
     public LocalTime readAttendanceTime() {
-        System.out.println("등교 시간을 입력해주세요");
+        System.out.println("등교 시간을 입력해주세요.");
+        String input = Console.readLine().trim();
+
+        List<String> times = Parser.splitBy(input, ":");
+        Validator.validateParsedSize(times, 2);
+
+        LocalTime time = Validator.validateTime(times.get(0), times.get(1));
+        return time;
+    }
+
+    public String readModifyAttendanceNickname() {
+        System.out.println("출석을 수정하려는 크루의 닉네임을 입력해 주세요.");
+        String input = Console.readLine().trim();
+        return input;
+    }
+
+    public int readModifyAttendanceDate() {
+        System.out.println("수정하려는 날짜(일)을 입력해 주세요.");
+        String input = Console.readLine().trim();
+        Validator.validateRange(input);
+        return Integer.parseInt(input);
+    }
+
+    public LocalTime readModifyAttendanceTime() {
+        System.out.println("언제로 변경하겠습니까?");
         String input = Console.readLine().trim();
 
         List<String> times = Parser.splitBy(input, ":");

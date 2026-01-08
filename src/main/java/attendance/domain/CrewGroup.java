@@ -1,16 +1,20 @@
 package attendance.domain;
 
+import attendance.service.ModifyDto;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 public class CrewGroup {
     private final List<Crew> crews = new ArrayList<>();
-    private final Map<Crew,Histories> histories = new LinkedHashMap<>();
+    private final Map<Crew, Histories> histories = new LinkedHashMap<>();
 
     public void add(Crew crew) {
         crews.add(crew);
     }
 
-    public void addHistory(Crew crew, History history){
+    public void addHistory(Crew crew, History history) {
         getOrCreate(crew);
         histories.get(crew).add(history);
     }
@@ -22,7 +26,22 @@ public class CrewGroup {
         );
     }
 
-    public Crew findByName(String name){
+    public ModifyDto.Before getDateAndStatus(Crew crew, LocalDate date){
+        Histories histories1 = getOrCreate(crew);
+        History history = histories1.findByDate(date);
+
+        return new ModifyDto.Before(history.getDate(),history.getTime(), history.getStatus());
+    }
+
+    public ModifyDto.After modifyHistory(Crew crew, LocalDate date, LocalTime time) {
+        Histories histories1 = histories.get(crew);
+
+        histories1.modify(date,time);
+        History history = histories1.findByDate(date);
+        return new ModifyDto.After(history.getTime(),history.getStatus());
+    }
+
+    public Crew findByName(String name) {
         Optional<Crew> crew = crews.stream()
                 .filter(a -> a.getName().equals(name))
                 .findFirst();
