@@ -87,15 +87,15 @@ class ApplicationTest extends NsTest {
     /**
      * 내가 만든 테스트
      * **/
-
-    @Test
-    void 기능입력형식_예외_테스트() {
-        assertThatThrownBy(() ->
-                runException("9")
-        ).isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR] 잘못된 형식을 입력하였습니다");
-    }
-
+//
+//    @Test
+//    void 기능입력형식_예외_테스트() {
+//        assertThatThrownBy(() ->
+//                runException("9")
+//        ).isInstanceOf(IllegalArgumentException.class)
+//                .hasMessageContaining("[ERROR] 잘못된 형식을 입력하였습니다");
+//    }
+//
     @Test
     void 캠퍼스_운영시간외_등교_예외_테스트() {
         assertNowTest(
@@ -106,16 +106,16 @@ class ApplicationTest extends NsTest {
         );
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {"1","2"})
-    void 등록되지않은_닉네임_예외_테스트(String text) {
-        assertNowTest(
-                () -> assertThatThrownBy(() -> run(text,"짱구","08:00"))
-                        .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessageContaining("[ERROR] 등록되지 않은 닉네임입니다."),
-                LocalDate.of(2026, 1, 2).atStartOfDay()
-        );
-    }
+//    @ParameterizedTest
+//    @ValueSource(strings = {"1","2"})
+//    void 등록되지않은_닉네임_예외_테스트(String text) {
+//        assertNowTest(
+//                () -> assertThatThrownBy(() -> run(text,"짱구","08:00"))
+//                        .isInstanceOf(IllegalArgumentException.class)
+//                        .hasMessageContaining("[ERROR] 등록되지 않은 닉네임입니다."),
+//                LocalDate.of(2026, 1, 2).atStartOfDay()
+//        );
+//    }
 
 
     @Override

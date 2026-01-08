@@ -45,7 +45,6 @@ public class AttendanceController {
         commands.put("Q", new Quit());
     }
 
-
     private void readFile(){
         try{
             BufferedReader br = Files.newBufferedReader(Path.of("src/main/resources/attendances.csv"));
