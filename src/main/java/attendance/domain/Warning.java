@@ -14,13 +14,17 @@ public enum Warning {
         this.count = count;
     }
 
-    public Warning of(int late, int absent){
-        // TODO: 지각, 결석 변환 계산하기
+    public static Warning of(int late, int absent){
+        absent=absent+late/3;
         for (Warning warning:Warning.values()){
             if (warning.count<=absent){
                 return warning;
             }
         }
         throw new IllegalArgumentException("[ERROR] 0 이상의 숫자를 입력해야합니다.");
+    }
+
+    public String getName() {
+        return name;
     }
 }
