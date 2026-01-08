@@ -29,11 +29,11 @@ public class ConfirmAttendance implements Command {
     public void confirmAttendance() {
         Crew crew = crewGroup.findByName(inputView.readNickname());
         List<History> histories = crewGroup.getHistories(crew);
-        Map<String, Long> allStatus = crewGroup.getAllStatus(crew);
+        Map<String, Integer> allStatus = crewGroup.getAllStatus(crew);
 
-        GetDto.Status status = new GetDto.Status(Math.toIntExact(allStatus.getOrDefault("출석",0L)),
-                Math.toIntExact(allStatus.getOrDefault("지각",0L)),
-                Math.toIntExact(allStatus.getOrDefault("결석",0L)));
+        GetDto.Status status = new GetDto.Status(allStatus.getOrDefault("출석",0),
+                allStatus.getOrDefault("지각",0),
+                allStatus.getOrDefault("결석",0));
 
         List<GetDto.Attendance> attendances = new ArrayList<>();
         for (History history : histories){
@@ -41,7 +41,6 @@ public class ConfirmAttendance implements Command {
         }
 
         String warning = Warning.of(status.getLate(),status.getAbsent()).getName();
-
         OutputView.printConfirmResult(crew.getName(),new GetDto(attendances,status,warning));
 
     }

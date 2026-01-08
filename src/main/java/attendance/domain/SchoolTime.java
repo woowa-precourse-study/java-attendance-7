@@ -65,7 +65,7 @@ public enum SchoolTime {
 
     public static SchoolTime of(LocalDate localDate) {
         for (SchoolTime  schoolTime  : SchoolTime .values()) {
-            if (schoolTime.korName.equals(localDate.getDayOfWeek().getDisplayName(TextStyle.NARROW, Locale.KOREAN))) {
+            if (schoolTime.number == localDate.getDayOfWeek().getValue()) {
                 return schoolTime ;
             }
         }

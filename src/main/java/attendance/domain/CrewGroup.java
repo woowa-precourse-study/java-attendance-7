@@ -67,7 +67,7 @@ public class CrewGroup {
         return histories1.getAllHistories();
     }
 
-    public Map<String, Long> getAllStatus(Crew crew) {
+    public Map<String, Integer> getAllStatus(Crew crew) {
         Histories histories1 = histories.get(crew);
         return histories1.getAllStatus();
     }
@@ -75,9 +75,9 @@ public class CrewGroup {
     public WarningDto getWarning() {
         List<WarningDto.Warn> warns = new ArrayList<>();
         for (Crew crew : crews) {
-            Map<String, Long> allStatus = getAllStatus(crew);
-            int late = Math.toIntExact(allStatus.getOrDefault("지각", 0L));
-            int absent = Math.toIntExact(allStatus.getOrDefault("결석", 0L));
+            Map<String, Integer> allStatus = getAllStatus(crew);
+            int late = allStatus.getOrDefault("지각", 0);
+            int absent = allStatus.getOrDefault("결석", 0);
 
             Warning warning = Warning.of(late, absent);
 

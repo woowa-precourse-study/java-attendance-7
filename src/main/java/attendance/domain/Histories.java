@@ -49,12 +49,12 @@ public class Histories {
                 .collect(Collectors.toList());
     }
 
-    public Map<String, Long> getAllStatus() {
+    public Map<String, Integer> getAllStatus() {
         return histories.stream()
                 .filter(history -> history.getDate().isBefore(DateTimes.now().toLocalDate()))
                 .collect(Collectors.groupingBy(
                         History::getStatus,
-                        Collectors.counting()
+                        Collectors.summingInt(r -> 1)
                 ));
     }
 
