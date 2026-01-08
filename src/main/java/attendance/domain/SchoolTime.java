@@ -32,19 +32,16 @@ public enum SchoolTime {
         this.school_end = school_end;
     }
 
-    public boolean isSchoolTime(LocalDate date,LocalTime time){
+    public boolean isSchoolDay(LocalDate date){
         if (date.equals(LocalDate.of(2024,12,25))){
             return false;
         }
 
-        if (this.equals(DayOfWeek.SATURDAY) || this.equals(DayOfWeek.SUNDAY)){
-            return false;
-        }
+        return (!(this.number == DayOfWeek.SATURDAY.getValue() || this.number == DayOfWeek.SUNDAY.getValue()));
+    }
 
-        if (time.isBefore(school_start) || time.isAfter(school_end)){
-            return false;
-        }
-        return true;
+    public boolean isSchoolTime(LocalTime time){
+        return (!(time.isBefore(school_start) || time.isAfter(school_end)));
     }
 
     public boolean isEduTime(LocalTime time){
