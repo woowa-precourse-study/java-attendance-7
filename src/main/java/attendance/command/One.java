@@ -1,10 +1,14 @@
 package attendance.command;
 
 import attendance.controller.InputView;
+import attendance.controller.OutputView;
 import attendance.domain.Crew;
 import attendance.domain.CrewGroup;
+import attendance.domain.SchoolTime;
 import attendance.service.Service;
+import camp.nextstep.edu.missionutils.DateTimes;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class One implements Command {
@@ -24,8 +28,14 @@ public class One implements Command {
     }
 
     public void checkAttendance() {
+        LocalDateTime today= DateTimes.now();
+        SchoolTime schoolTime = SchoolTime.of(today.toLocalDate());
+
         Crew crew = crewGroup.findByName(inputView.readNickname());
         LocalTime time = inputView.readAttendanceTime();
+        String status = schoolTime.calculateStatus(time);
+
+        OutputView.printResult(LocalDateTime.of(today.toLocalDate(),time), status);
 
     }
 }
