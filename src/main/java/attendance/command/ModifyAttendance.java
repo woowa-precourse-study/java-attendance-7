@@ -31,8 +31,9 @@ public class ModifyAttendance implements Command {
         LocalDate date = LocalDate.of(2024,12,inputView.readModifyAttendanceDate());
         LocalTime time = inputView.readModifyAttendanceTime();
 
-        ModifyDto.Before before = crewGroup.getDateAndStatus(crew,date);
-        ModifyDto.After after = crewGroup.modifyHistory(crew,date,time);
+        ModifyDto.Before before = crew.getDateAndStatus(date);
+        ModifyDto.After after = crew.modifyHistory(date,time);
+        crew.updateHistory();
 
         OutputView.printModifyResult(before,after);
 

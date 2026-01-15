@@ -72,4 +72,13 @@ public enum SchoolTime {
         throw new IllegalArgumentException("해당 요일이 존재하지 않습니다.");
     }
 
+    public enum Status{
+        ATTENDANCE("출석"), LATE("지각"),ABSENT("결석");
+        private final String korName;
+
+        Status(String korName) {
+            this.korName = korName;
+        }
+    }
+
 }

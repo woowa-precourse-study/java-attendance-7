@@ -1,7 +1,10 @@
 package attendance;
 
+import attendance.domain.Warning;
 import camp.nextstep.edu.missionutils.test.NsTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.time.LocalDate;
 
@@ -76,6 +79,59 @@ class ApplicationTest extends NsTest {
                 LocalDate.of(2024, 12, 13).atStartOfDay()
         );
     }
+
+    /**
+     * 내가 작성한 테스트
+     * **/
+
+    @Test
+    void 기능_형식_예외_테스트() {
+        assertNowTest(
+                () -> assertThatThrownBy(() -> run("9"))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessageContaining("[ERROR] 잘못된 형식을 입력하였습니다."),
+                LocalDate.of(2024, 12, 13).atStartOfDay()
+        );
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"1","2"})
+    void 모든_기능에서_등록되지_않은_닉네임_예외_테스트(String text) {
+        assertNowTest(
+                () -> assertThatThrownBy(() -> run(text, "빈봉"))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessageContaining("[ERROR] 등록되지 않은 닉네임입니다."),
+                LocalDate.of(2024, 12, 13).atStartOfDay()
+        );
+    }
+
+    @Test
+    void 날짜형식_예외_테스트() {
+        assertNowTest(
+                () -> assertThatThrownBy(() -> run("2","짱수","32"))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessageContaining("[ERROR] 잘못된 형식을 입력하였습니다."),
+                LocalDate.of(2024, 12, 13).atStartOfDay()
+        );
+    }
+
+    @Test
+    void 지각3회_결석처리_기능_테스트() {
+        Warning warning = Warning.of(3,2);
+
+        assertThat(warning).isEqualTo(Warning.MEETING);
+    }
+
+//    @Test
+//    void 경고_대상자_조회_테스트() {
+//        assertNowTest(
+//                () -> {
+//                    runException("4");
+//                    assertThat(output()).contains("- 빙티: 결석 3회, 지각 2회 (면담)");
+//                },
+//                LocalDate.of(2024, 12, 13).atStartOfDay()
+//        );
+//    }
 
     @Override
     protected void runMain() {

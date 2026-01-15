@@ -72,17 +72,21 @@ public class Controller {
             while((line=br.readLine())!=null){
 
                 String[] cols = line.split(",");
-                Crew crew = new Crew(cols[0]);
-                crewGroup.add(crew);
+                try {
+                    Crew crew = crewGroup.findByName(cols[0]);
+                } catch (IllegalArgumentException ignored){
+                    crewGroup.add(new Crew(cols[0]));
+                }
+
+                Crew crew = crewGroup.findByName(cols[0]);
 
                 DateTimeFormatter p1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                 LocalDateTime localDateTime = LocalDateTime.parse(cols[1],p1);
                 SchoolTime schoolTime = SchoolTime.of(localDateTime.toLocalDate());
                 String status = schoolTime.calculateStatus(localDateTime.toLocalTime());
 
-                crewGroup.addHistory(crew,new History(localDateTime.toLocalDate(),
+                crew.addHistory(new History(localDateTime.toLocalDate(),
                         localDateTime.toLocalTime(),schoolTime,status));
-
             }
         } catch (IOException e) {
             throw new IllegalStateException("파일을 읽는데 오류가 발생했습니다.");

@@ -22,9 +22,9 @@ public class History {
         return date;
     }
 
-    public void modifyTime(LocalTime afterTime){
-        time=afterTime;
-        status=schoolTime.calculateStatus(afterTime);
+    public void modifyTime(LocalTime afterTime) {
+        time = afterTime;
+        status = schoolTime.calculateStatus(afterTime);
     }
 
     public LocalTime getTime() {

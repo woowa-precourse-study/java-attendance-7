@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class Histories {
     private final List<History> histories = new ArrayList<>();
-    private final Warning warning = Warning.NONE;
+    private final AttendanceSummary summary = new AttendanceSummary();
 
     public void add(History history) {
         histories.add(history);
@@ -58,4 +58,20 @@ public class Histories {
                 ));
     }
 
+
+    public void updateSummary() {
+        Map<String, Integer> counts = histories.stream()
+                .filter(history -> history.getDate().isBefore(DateTimes.now().toLocalDate()))
+                .collect(Collectors.groupingBy(
+                        History::getStatus,
+                        Collectors.summingInt(r -> 1)
+                ));
+        summary.update(counts.getOrDefault("출석", 0), counts.getOrDefault("지각", 0),
+                counts.getOrDefault("결석", 0));
+    }
+
+
+    public AttendanceSummary getSummary() {
+        return summary;
+    }
 }
